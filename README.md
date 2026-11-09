@@ -18,9 +18,20 @@ Angular. Every experiment uses simulated users with known true preferences, so
 placement error can be measured exactly. The A/B test runs both offline and end
 to end through the app on one machine. No data is collected from people.
 
-**Status:** checkpoint S0. The simulator matches an exact oracle; strategy
-comparisons come next. Measured results so far are in
-[`docs/RESULTS.md`](docs/RESULTS.md).
+**Status:** simulation results for Q1, Q2 and Q4 are in; the Django and Angular app comes
+next. Simulated users, constant noise, 10% wrong answers, list of 49:
+
+- **Placement.** Binary insertion misplaces the 50th restaurant by 2.88 positions in 5.6
+  questions; Bayesian bisection reaches 0.20 positions in 10.9. The gain shrinks when
+  mistakes concentrate on close pairs or repeat themselves.
+- **Score drift.** A restaurant's 0–10 score moves about 0.94 points as a list grows from
+  10 to 50, even with perfectly consistent answers, matching the drift law to 2.3%.
+- **A/B test.** 481 users per arm detect a 0.25-position improvement at 80% power, checked
+  by 2,000 simulated experiments (A/A false-positive rate 4.35%).
+
+Hypotheses that failed are kept in [`docs/RESULTS.md`](docs/RESULTS.md).
+
+![Average placement error against questions asked](docs/figures/q1_error_vs_questions.png)
 
 ## Setup
 
@@ -29,6 +40,10 @@ python3 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
 .venv/bin/pytest
 .venv/bin/python scripts/s0_oracle_check.py   # simulator vs exact oracle
+.venv/bin/python scripts/q1_placement.py      # Q1 grid, about 5 min on 8 cores
+.venv/bin/python scripts/q2_drift.py          # Q2, about 30 s
+.venv/bin/python scripts/q4_abtest.py         # Q4, about 3 min
+.venv/bin/python scripts/make_figures.py      # every figure and table
 ```
 
 ## Design notes

@@ -22,6 +22,10 @@ class NoiseModel(ABC):
     ) -> bool:
         return bool(rng.random() < self.p_report_better(u_new, u_ref))
 
+    def fresh(self) -> NoiseModel:
+        """A copy for a new simulated user. Stateless models can share one instance."""
+        return self
+
 
 class ConstantNoise(NoiseModel):
     """M-const: every answer is wrong with probability eps."""
@@ -91,6 +95,9 @@ class StickyNoise(NoiseModel):
         self.rho = rho
         self._memory: dict[Pair, bool] = {}
 
+    def fresh(self) -> StickyNoise:
+        return StickyNoise(self.base, self.rho)
+
     def p_report_better(self, u_new: float, u_ref: float) -> float:
         return self.base.p_report_better(u_new, u_ref)
 
@@ -107,3 +114,19 @@ class StickyNoise(NoiseModel):
         said_new_better = self.base.answer(u_new, u_ref, rng, pair)
         self._memory[key] = said_new_better if new_id == key[0] else not said_new_better
         return said_new_better
+
+
+class FirstAnswerWrong(NoiseModel):
+    """Stress test: the first answer of an insertion is wrong; the rest are right."""
+
+    def __init__(self) -> None:
+        self._asked = False
+
+    def fresh(self) -> FirstAnswerWrong:
+        return FirstAnswerWrong()
+
+    def p_report_better(self, u_new: float, u_ref: float) -> float:
+        correct = u_new > u_ref
+        said_better = (not correct) if not self._asked else correct
+        self._asked = True
+        return 1.0 if said_better else 0.0

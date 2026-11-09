@@ -1,0 +1,7 @@
+mapping,strategy,eps,mean_drift_10_to_50,mean_drift_ci95,visible_churn_50th,accuracy_mean_abs_error
+percentile,binary,0.0,0.938,0.017,0.601,0.444
+tiered,binary,0.0,0.465,0.006,0.19,0.253
+percentile,binary,0.1,0.982,0.018,0.595,1.161
+percentile,bisection,0.1,0.946,0.017,0.6,0.529
+tiered,binary,0.1,0.481,0.006,0.189,0.442
+tiered,bisection,0.1,0.477,0.006,0.19,0.282

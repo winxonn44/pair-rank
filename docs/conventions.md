@@ -30,6 +30,12 @@ are convention bugs: an off-by-one slot, or a flipped answer.
 
 - 10 is best and 0 is worst. Scores are floats internally and are rounded to
   one decimal **only for display**. (`tests/test_conventions.py`)
+- **Percentile mapping:** s = 10(n − 1 − p)/(n − 1) for position p of n ≥ 2; a
+  single entry scores 10. (`tests/test_scoring.py`)
+- **Tiered mapping:** within a tier of m entries, position q scores
+  lo + (hi − lo)(m − q − 0.5)/m (mid-ranks, so tiers never collide and a lone
+  entry sits mid-band). (`tests/test_scoring.py`)
+- **True score:** 10 × the place's true quantile among the user's possible places.
 - Tier bands for the tiered mapping: `disliked` [0, 10/3), `fine` [10/3, 20/3),
   `liked` [20/3, 10]. (`tests/test_conventions.py`)
 
@@ -54,7 +60,8 @@ are convention bugs: an off-by-one slot, or a flipped answer.
   (`tests/test_noise.py`)
 - Note: the average error over *random* pairs is not the error rate a search
   sees. Searches ask about close pairs more often, so under M-BT the realized
-  error rate during insertion is higher. S1 measures it.
+  error rate during insertion is higher. S1 measured it: 22% of asked questions
+  at a calibrated 10%. Q1 calibrates T on differences of its i.i.d. N(0, 1) utilities.
 
 ## Randomness
 

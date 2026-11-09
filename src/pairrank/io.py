@@ -23,6 +23,15 @@ def _git(*args: str) -> str:
     return out.stdout.strip()
 
 
+def _power_source() -> str:
+    """Battery or AC on macOS; timings in a row should be read with this in mind."""
+    try:
+        out = subprocess.run(["pmset", "-g", "batt"], capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+    return "battery" if "Battery Power" in out.stdout else "ac"
+
+
 def run_metadata(master_seed: int) -> dict[str, Any]:
     return {
         "git_commit": _git("rev-parse", "--short", "HEAD"),
@@ -31,6 +40,7 @@ def run_metadata(master_seed: int) -> dict[str, Any]:
         "numpy": np.__version__,
         "scipy": scipy.__version__,
         "platform": f"{sys.platform}-{platform.machine()}",
+        "power": _power_source(),
         "master_seed": master_seed,
         "timestamp_utc": datetime.now(UTC).isoformat(timespec="seconds"),
     }
