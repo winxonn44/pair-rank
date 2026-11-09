@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# Secrets
+.env
+.env.*
+
+# Data that must never be committed (Yelp Open Dataset, derived files)
+data/
+
+# Node / Angular (from A3)
+node_modules/
+frontend/dist/
+frontend/.angular/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling==1.33.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pairrank"
+version = "0.0.1"
+description = "How few 'better or worse?' questions does it take to rank restaurants when people answer inconsistently?"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Winxon Nguyen" }]
+requires-python = ">=3.13"
+dependencies = [
+    "numpy==2.5.4",
+    "scipy==1.18.1",
+    "pandas==3.1.1",
+    "matplotlib==3.11.2",
+    "statsmodels==0.15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.2.0",
+    "ruff==0.17.4",
+    "mypy==2.4.1",
+    "scipy-stubs==1.18.1.1",
+]
+# Installed from A1 onward. Pinned now so A0 can check Python 3.14 wheels.
+backend = [
+    "django==5.2.19",
+    "djangorestframework==3.18.3",
+    "psycopg[binary]==3.3.8",
+    "pytest-django==4.14.0",
+    "gunicorn==26.2.0",
+    "whitenoise==6.12.0",
+    "httpx==0.28.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pairrank"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = ["error::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "NPY"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["src/pairrank"]
