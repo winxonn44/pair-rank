@@ -1,0 +1,20 @@
+# Local Postgres for development and the SQL analysis. The password is local-only.
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pairrank
+      POSTGRES_PASSWORD: pairrank
+      POSTGRES_DB: pairrank
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pairrank -d pairrank"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  pgdata:

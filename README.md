@@ -18,8 +18,8 @@ Angular. Every experiment uses simulated users with known true preferences, so
 placement error can be measured exactly. The A/B test runs both offline and end
 to end through the app on one machine. No data is collected from people.
 
-**Status:** simulation results for Q1, Q2 and Q4 are in; the Django and Angular app comes
-next. Simulated users, constant noise, 10% wrong answers, list of 49:
+**Status:** simulation results for Q1, Q2 and Q4 are in, and the app's Postgres schema is
+built; its API and Angular front end come next. Simulated users, constant noise, 10% wrong answers, list of 49:
 
 - **Placement.** Binary insertion misplaces the 50th restaurant by 2.88 positions in 5.6
   questions; Bayesian bisection reaches 0.20 positions in 10.9. The gain shrinks when
@@ -44,6 +44,17 @@ python3 -m venv .venv
 .venv/bin/python scripts/q2_drift.py          # Q2, about 30 s
 .venv/bin/python scripts/q4_abtest.py         # Q4, about 3 min
 .venv/bin/python scripts/make_figures.py      # every figure and table
+```
+
+The app needs Docker for PostgreSQL 17 (bound to localhost only):
+
+```bash
+.venv/bin/pip install -e ".[dev,backend]"
+docker compose up -d --wait
+cd backend
+DEBUG=1 ../.venv/bin/python manage.py migrate
+DEBUG=1 ../.venv/bin/python manage.py loaddata la_places
+../.venv/bin/pytest
 ```
 
 ## Design notes

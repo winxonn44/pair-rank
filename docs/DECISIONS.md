@@ -29,4 +29,8 @@ One row per decision: date, choice, why, what was measured.
 | 2026-11-09 | Q4 tests bisection as well as the pre-registered `verify` | Q1 showed bisection is what you'd ship; the original `verify` arm stays in the results |
 | 2026-11-09 | Power checks scale the effect with a treated fraction | The full effect needs only a handful of users, where the normal approximation isn't meaningful; real experiments hunt for small effects |
 | 2026-11-09 | Per-user error rate capped at 0.49 in the mixed-user bank | Beta(2, 18) has a rare tail above 0.5, where the noise model is undefined; at least one of the 50,000 users hit it |
+| 2026-11-09 | `RankList.owner` and `Place.created_by` point at Django's user table; a guest is a user row with no password | Keeps "one browser = one guest" without a second identity table; seeded places have no creator, so `created_by` is nullable |
+| 2026-11-09 | Allowed values (status, answer, tier), trimmed names and "done means it has a result" are also database checks | The SQL analysis reads these tables directly, and simulated faulty clients shouldn't be able to write a state the funnel can't count |
+| 2026-11-09 | `DATABASE_URL` parsed by a 12-line function, tested | One format to support; not worth a dependency |
+| 2026-11-09 | Backend tests have their own `backend/pytest.ini`; mypy strict stays on `src/pairrank` | The simulation suite must keep running without Django (macOS CI job). Strict typing the Django layer would need django-stubs, not added |
 | 2026-11-06 | Build backend hatchling; plain `venv` + pip, versions pinned with `==` in `pyproject.toml` | `uv` isn't installed and isn't needed at this size |
