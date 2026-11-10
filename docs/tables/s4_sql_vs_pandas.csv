@@ -1,0 +1,9 @@
+query,rows_compared,max_abs_difference
+questions_per_insertion,5.0,3.552713678800501e-15
+error_by_strategy,5.0,0.0
+contradiction_rate,5.0,0.0
+abandonment_funnel,5.0,0.0
+dropoff_by_question,91.0,0.0
+error_by_session_position,100.0,4.440892098500626e-16
+per_user_ab,4.0,6.039613253960852e-14
+list_integrity,1.0,0.0

@@ -1,4 +1,4 @@
 audit_disagreement,bank_seconds,completion_h0.0,completion_h0.005,completion_h0.01,completion_h0.02,git_commit,git_dirty,kind,master_seed,mean_error,mean_error_ci95,mean_questions,numpy,platform,power,python,scipy,strategy,user_sd,users
-0.1432,153.3223,1.0,0.9738,0.9481,0.8985,a68d741,True,arm,20261111,3.0234,0.0125,5.3011,2.5.4,darwin-arm64,ac,3.14.6,1.18.1,binary,1.4228,50000.0
-0.1029,153.3223,1.0,0.95,0.9025,0.8145,a68d741,True,arm,20261111,0.223,0.0032,10.2707,2.5.4,darwin-arm64,ac,3.14.6,1.18.1,bisection,0.3619,50000.0
-0.1056,153.3223,1.0,0.9502,0.903,0.8158,a68d741,True,arm,20261111,0.3928,0.005,10.2225,2.5.4,darwin-arm64,ac,3.14.6,1.18.1,verify,0.5756,50000.0
+0.1432,154.9906,1.0,0.9738,0.9481,0.8985,956843c,False,arm,20261111,3.0234,0.0125,5.3011,2.5.4,darwin-arm64,battery,3.14.6,1.18.1,binary,1.4228,50000.0
+0.1029,154.9906,1.0,0.95,0.9025,0.8145,956843c,False,arm,20261111,0.223,0.0032,10.2707,2.5.4,darwin-arm64,battery,3.14.6,1.18.1,bisection,0.3619,50000.0
+0.1056,154.9906,1.0,0.9502,0.903,0.8158,956843c,False,arm,20261111,0.3928,0.005,10.2225,2.5.4,darwin-arm64,battery,3.14.6,1.18.1,verify,0.5756,50000.0

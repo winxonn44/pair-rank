@@ -391,6 +391,23 @@ def q4_outputs(path: Path) -> None:
     ).round(4).to_csv(TABLES / "q4_arms.csv", index=False)
 
 
+def s4_outputs(path: Path) -> None:
+    s4 = pd.read_json(path, lines=True, precise_float=True)
+
+    def metric(name: str, columns: list[str]) -> pd.DataFrame:
+        return s4.loc[s4.metric == name, columns]
+
+    summary = (
+        metric("error_by_strategy", ["strategy", "mean_error", "exact_rate"])
+        .merge(metric("questions_per_insertion", ["strategy", "mean_questions", "p95_questions"]))
+        .merge(metric("contradiction_rate", ["strategy", "contradiction_rate"]))
+        .merge(metric("abandonment_funnel", ["strategy", "completion_rate"]))
+    )
+    summary.round(4).to_csv(TABLES / "s4_strategies.csv", index=False)
+    checks = metric("sql_vs_pandas", ["query", "rows_compared", "max_abs_difference"])
+    checks.to_csv(TABLES / "s4_sql_vs_pandas.csv", index=False)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--tiny", action="store_true")
@@ -409,6 +426,7 @@ def main() -> None:
     suffix = "_tiny" if args.tiny else ""
     q2_outputs(Path("runs") / f"q2{suffix}.jsonl")
     q4_outputs(Path("runs") / f"q4{suffix}.jsonl")
+    s4_outputs(Path("runs") / f"s4{suffix}.jsonl")
 
 
 if __name__ == "__main__":

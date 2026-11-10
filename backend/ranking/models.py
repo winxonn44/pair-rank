@@ -92,6 +92,7 @@ class Insertion(models.Model):
     list = models.ForeignKey(RankList, on_delete=models.CASCADE, related_name="insertions")
     place = models.ForeignKey(Place, on_delete=models.PROTECT, related_name="insertions")
     strategy = models.CharField(max_length=32)
+    tier = models.CharField(max_length=8, choices=Tier.choices, null=True, blank=True)
     state = models.JSONField()  # pairrank.state.InsertionState, as JSONB
     list_version_at_start = models.PositiveIntegerField()
     n_questions = models.PositiveIntegerField(default=0)
@@ -106,6 +107,10 @@ class Insertion(models.Model):
         constraints = [
             models.CheckConstraint(
                 condition=Q(status__in=InsertionStatus.values), name="insertion_status_valid"
+            ),
+            models.CheckConstraint(
+                condition=Q(tier__isnull=True) | Q(tier__in=Tier.values),
+                name="insertion_tier_valid",
             ),
             # Only a finished insertion has a final position and a finish time.
             models.CheckConstraint(

@@ -276,3 +276,56 @@ arms than judging individuals. The arm-level result is the part a real experimen
 which interferes with randomization, so a real test would randomize by friend cluster. The
 drop-off model is an assumption, and the primary metric isn't observable in production.
 
+## A2: the app runs the evaluated code
+
+Regenerate with `cd backend && ../.venv/bin/pytest ranking/tests/test_replay.py` (about 1 minute,
+needs Postgres).
+
+- **1,080 of 1,080 simulated transcripts replayed through the API matched the simulator**: same
+  question at every step, same final position, same question count, same logged comparison rows.
+  Five strategies × ε ∈ {0, 0.1, 0.2} × n ∈ {0, 1, 2, 7, 20, 50} × 12 transcripts.
+- Five whole sessions (one per strategy, 30 places, ε = 0.15), where each insertion depends on
+  earlier mistakes, built the same list in the same number of questions as `build_list`.
+- Two tabs racing to finish on one list, 25 rounds: exactly one 200 and one `list_changed` 409
+  every round. A double-click from two connections, 25 rounds: one answer written, both get the
+  same response.
+- The tests were checked by breaking the code on purpose. Removing the row lock failed the race
+  tests, flipping better/worse or adding an off-by-one to the final slot failed the replay, and
+  removing `select_related` failed the query bounds.
+
+Limit: this shows the HTTP layer adds no error of its own. It says nothing about how real people
+answer, which no result in this project measures.
+
+## S4: SQL metrics on simulated sessions
+
+Regenerate with `.venv/bin/python scripts/load_sim_to_pg.py` (about 15 s, needs Postgres). Data:
+500 simulated users per strategy, each attempting 20 insertions into a list starting at 29, with
+10% constant noise and a 1% chance of quitting at each question. That loads 50,000 insertions and
+461,806 comparison rows into the app's schema.
+
+**Pass: all 8 queries in `sql/sim_metrics.sql` equal independent pandas versions**, exactly for
+counts and to 1e-9 for means. The largest difference anywhere was 6e-14. pandas works from the
+rows generated in memory, so a lost row would show as a mismatch. Planting four bugs in the SQL
+(integer division, an off-by-one in the contradiction rule, including abandoned rows, a wrong
+denominator) failed the matching test each time. All 2,500 lists were contiguous at the right version.
+
+| Strategy | Mean error | Exact | Questions (completed) | Contradicted | Completed |
+|---|---|---|---|---|---|
+| binary | 2.94 | 38.3% | 5.29 | 0.0% | 94.84% |
+| bisection | 0.21 | 91.7% | 10.15 | 51.6% | 90.11% |
+| verify | 0.38 | 87.9% | 9.97 | 48.0% | 90.06% |
+| majority (same pair) | 0.80 | 77.0% | 11.54 | 65.4% | 88.45% |
+| majority (neighbor) | 0.93 | 63.9% | 11.88 | 66.7% | 88.67% |
+
+- **Agrees with Q4,** an independent run with 50,000 users per arm: binary 2.94 here against 3.02,
+  with a standard error of 0.06 at 500 users. Completion is 94.84% against 94.81%.
+- **The quit rate comes back out.** Across 466,593 questions asked, the SQL drop-off query
+  measures a hazard of 1.03%, against the 1% put in.
+- **Contradictions are not a quality measure.** Binary search is at 0% because it never asks a
+  question that could expose one, and it's the least accurate strategy here. The others show
+  48–67% because asking more finds more.
+- **Binary's error climbs through a session:** 1.71 positions on a user's first insertion and 4.07
+  on the 20th, while bisection goes from 0.10 to 0.28. The list also grows from 29 to 49 over the
+  session, so this mixes compounding mistakes with a longer list.
+
+Limits: the quit rate is an assumption, and abandoning here doesn't depend on how hard a question is.

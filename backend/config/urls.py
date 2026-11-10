@@ -1,5 +1,5 @@
-"""URL routes. The API arrives with checkpoint A2."""
+"""URL routes."""
 
-from django.urls import URLPattern
+from django.urls import include, path
 
-urlpatterns: list[URLPattern] = []
+urlpatterns = [path("api/", include("ranking.urls"))]

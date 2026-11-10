@@ -68,6 +68,21 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {"default": parse_database_url(_required("DATABASE_URL", _DEV_DATABASE_URL))}
 
+# Which placement strategy the app runs (see docs/DECISIONS.md for why this one).
+PAIRRANK_DEFAULT_STRATEGY = "bisection"
+
+# Per IP address. An empty value turns throttling off, for local simulated traffic.
+API_THROTTLE_RATE = os.environ.get("API_THROTTLE_RATE", "240/min") or None
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.SessionAuthentication"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_THROTTLE_CLASSES": ["ranking.throttling.IPRateThrottle"],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+}
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
