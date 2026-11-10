@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.count {
+  margin: 0 0 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+}
+
+h2 {
+  margin: 0 0 1.75rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.name {
+  display: block;
+  margin: 0.15em 0;
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  font-stretch: 80%;
+  font-weight: 750;
+  line-height: 1.02;
+  overflow-wrap: anywhere;
+}
+
+/* The two answers look identical on purpose: styling must not nudge the choice. */
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.answers button {
+  min-height: 3.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--porcelain);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 120ms ease-out;
+}
+
+.answers button:hover:enabled {
+  background: var(--marigold);
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+kbd {
+  font-family: var(--mono);
+}
+
+.cancel {
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

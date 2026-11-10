@@ -18,9 +18,13 @@ Angular. Every experiment uses simulated users with known true preferences, so
 placement error can be measured exactly. The A/B test runs both offline and end
 to end through the app on one machine. No data is collected from people.
 
-**Status:** the simulation results and the app's API on Postgres are done; the Angular front end
-comes next. Everything below comes from simulated users, and each row can be regenerated with its
-script.
+**Status:** the simulation results and the app (API on Postgres, Angular page) run locally; it
+isn't deployed yet. Everything below comes from simulated users, and each row can be regenerated
+with its script.
+
+![Adding a tenth place to a list by answering better-or-worse questions](docs/demo.gif)
+
+*The local app, with scripted answers and playback timing set for the recording.*
 
 | Result | Measured | Source |
 |---|---|---|
@@ -57,6 +61,18 @@ cd backend
 DEBUG=1 ../.venv/bin/python manage.py migrate
 DEBUG=1 ../.venv/bin/python manage.py loaddata la_places
 ../.venv/bin/pytest
+```
+
+To use the page, build it with Node 24 and let Django serve it from one origin. Then open
+<http://127.0.0.1:8000>:
+
+```bash
+cd frontend
+npm ci
+npx ng test --watch=false
+npx ng build
+cd ../backend
+DEBUG=1 ../.venv/bin/gunicorn config.wsgi -b 127.0.0.1:8000
 ```
 
 ## API

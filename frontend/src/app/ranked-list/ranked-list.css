@@ -1,0 +1,50 @@
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--ink);
+}
+
+li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  transition: background-color 160ms ease-out;
+}
+
+.rank,
+.score {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.rank {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.place {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.comparing {
+  background: var(--marigold);
+}
+
+.comparing .rank {
+  color: var(--ink);
+}
+
+.placed {
+  animation: settle 1.4s ease-out;
+}
+
+@keyframes settle {
+  from {
+    background: var(--marigold);
+  }
+}

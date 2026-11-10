@@ -1,0 +1,60 @@
+<div class="page">
+  <header>
+    <p class="wordmark">PairRank</p>
+    <h1>Rank the places you've eaten in LA.</h1>
+  </header>
+
+  <main>
+    <section class="placemat" aria-label="Add a place">
+      @if (active(); as insertion) {
+        <app-question-card
+          [newPlace]="insertion.placeName"
+          [question]="insertion.question"
+          [disabled]="busy()"
+          (answered)="answer($event)"
+          (cancelled)="cancel()"
+        />
+      } @else {
+        <form (submit)="add($event)">
+          <label for="place">Where have you eaten?</label>
+          <input
+            #placeInput
+            id="place"
+            type="text"
+            maxlength="120"
+            autocomplete="off"
+            [value]="draft()"
+            (input)="onDraft($event)"
+          />
+          <button type="submit" [disabled]="busy() || !draft().trim()">Add to list</button>
+        </form>
+      }
+      <div class="status" aria-live="polite">
+        @if (error(); as message) {
+          <p class="error" role="alert">{{ message }}</p>
+        } @else if (notice(); as message) {
+          <p>{{ message }}</p>
+        }
+      </div>
+    </section>
+
+    <section class="list" aria-labelledby="list-heading">
+      <div class="list-heading">
+        <h2 id="list-heading">Your list</h2>
+        <span class="count">{{ entries().length }}</span>
+      </div>
+      @if (entries().length > 0) {
+        <app-ranked-list
+          [entries]="entries()"
+          [comparingPosition]="comparingPosition()"
+          [placedPosition]="placedPosition()"
+        />
+        <p class="note">Scores come from each place's rank, so they shift as your list grows.</p>
+      } @else {
+        <p class="empty">Add one place to start. Each one after that takes a few questions.</p>
+      }
+    </section>
+  </main>
+
+  <footer>An experiment in ranking by comparison. Not affiliated with Beli.</footer>
+</div>

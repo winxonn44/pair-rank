@@ -1,0 +1,43 @@
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+
+:root {
+  --porcelain: #edf1fa;
+  --cobalt: #1c3aa9;
+  --ink: #0f1f66;
+  --marigold: #f5b301;
+  --rule: #c7d0ea;
+  --muted: #47548a;
+  --display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--porcelain);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+:focus-visible {
+  outline: 3px solid var(--marigold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

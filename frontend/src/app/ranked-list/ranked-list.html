@@ -1,0 +1,12 @@
+<ol>
+  @for (entry of entries(); track entry.place.id) {
+    <li
+      [class.comparing]="entry.position === comparingPosition()"
+      [class.placed]="entry.position === placedPosition()"
+    >
+      <span class="rank">{{ entry.position + 1 }}</span>
+      <span class="place">{{ entry.place.name }}</span>
+      <span class="score">{{ entry.score | number: '1.1-1' }}</span>
+    </li>
+  }
+</ol>

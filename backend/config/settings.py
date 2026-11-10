@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -67,6 +68,11 @@ ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {"default": parse_database_url(_required("DATABASE_URL", _DEV_DATABASE_URL))}
+
+# The Angular build, served from the site root so the API and page share one origin.
+FRONTEND_DIST = BASE_DIR.parent / "frontend" / "dist" / "frontend" / "browser"
+WHITENOISE_ROOT = str(FRONTEND_DIST) if FRONTEND_DIST.is_dir() else None
+WHITENOISE_INDEX_FILE = True
 
 # Which placement strategy the app runs (see docs/DECISIONS.md for why this one).
 PAIRRANK_DEFAULT_STRATEGY = "bisection"

@@ -1,0 +1,158 @@
+.page {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.wordmark {
+  margin: 0 0 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.9375rem;
+}
+
+h1 {
+  max-width: 15ch;
+  margin: 0 0 2.5rem;
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  font-stretch: 75%;
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 3rem;
+}
+
+/* The scalloped edge of a diner placemat: half-circles bitten out of the bottom. */
+.placemat {
+  --scallop: 11px;
+  padding: 2rem 2rem calc(1.5rem + var(--scallop));
+  background: var(--cobalt);
+  color: var(--porcelain);
+  mask: radial-gradient(
+      circle at 50% 100%,
+      transparent calc(var(--scallop) - 0.5px),
+      #000 var(--scallop)
+    )
+    50% 100% / calc(2 * var(--scallop) + 5px) 100% repeat-x;
+}
+
+label {
+  display: block;
+  margin-bottom: 1.25rem;
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  font-stretch: 80%;
+  font-weight: 750;
+  line-height: 1.02;
+}
+
+form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+}
+
+label {
+  grid-column: 1 / -1;
+}
+
+input {
+  min-width: 0;
+  min-height: 3.5rem;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--porcelain);
+  color: var(--ink);
+  font: inherit;
+}
+
+form button {
+  min-height: 3.5rem;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--marigold);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+form button:disabled {
+  background: var(--rule);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.status {
+  min-height: 1.75rem;
+  margin-top: 1rem;
+}
+
+.status p {
+  margin: 0;
+}
+
+.error {
+  font-weight: 700;
+}
+
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.list-heading h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 750;
+}
+
+.count {
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.empty,
+.note {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.empty {
+  margin: 0;
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--ink);
+}
+
+.note {
+  margin: 0.75rem 0 0;
+}
+
+footer {
+  margin-top: 3.5rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 760px) {
+  main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .placemat {
+    padding-inline: 1.25rem;
+  }
+
+  form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

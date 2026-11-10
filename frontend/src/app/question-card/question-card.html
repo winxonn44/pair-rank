@@ -1,0 +1,17 @@
+<p class="count">Question {{ question().index + 1 }}</p>
+<h2>
+  <span class="name">{{ newPlace() }}</span>
+  better or worse than
+  <span class="name">{{ question().ref_place.name }}</span>
+</h2>
+<div class="answers">
+  <button type="button" [disabled]="disabled()" (click)="answer('better')">
+    <kbd aria-hidden="true">←</kbd> Better
+  </button>
+  <button type="button" [disabled]="disabled()" (click)="answer('worse')">
+    Worse <kbd aria-hidden="true">→</kbd>
+  </button>
+</div>
+<button type="button" class="cancel" [disabled]="disabled()" (click)="cancelled.emit()">
+  Stop adding this place
+</button>
