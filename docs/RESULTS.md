@@ -68,8 +68,8 @@ the time, using fewer than ⌈log₂(n + 1)⌉ questions on average:
 **Command.** `python scripts/q1_placement.py` → `runs/q1.jsonl` (426 configurations,
 10,000 insertions per cell or 1,000 whole lists, master seed 20261109, 302 s on 8
 worker processes, M4 MacBook Air on AC power). `python scripts/make_figures.py`
-regenerates the figures and `docs/tables/`. The rows record commit `a68d741` with
-uncommitted changes, because S1 wasn't committed yet; rerun after committing.
+regenerates the figures and `docs/tables/`. The rows record commit `956843c` with
+no uncommitted changes. A rerun at that commit reproduced every row apart from timestamps.
 
 **Strategies.** `binary` (S1); `majority` (S2, ask twice, a third time on conflict);
 `majority-neighbor` (S2b, re-asks use an adjacent pivot); `bisection` (S3a, posterior
@@ -173,8 +173,8 @@ above, and nothing here is a fact about real people or about Beli.
 ## Q2: how much do 0–10 scores move? (2026-11-09, checkpoint S2)
 
 **Command.** `python scripts/q2_drift.py` → `runs/q2.jsonl` (2,000 simulated users per
-cell, master seed 20261110, 26 s, M4 on AC power). Commit `a68d741` with uncommitted
-changes; rerun after committing.
+cell, master seed 20261110, 26 s, M4 on AC power). Recorded at commit `956843c`, clean,
+and reproduced exactly by a rerun.
 
 ![Score drift as a list grows](figures/q2_drift.png)
 
@@ -217,8 +217,8 @@ when a tier has few entries. That explanation wasn't tested separately.
 
 **Command.** `python scripts/q4_abtest.py` → `runs/q4.jsonl` (50,000 simulated users per
 arm; 2,000 simulated experiments per check, except the power curves at 1,000; master
-seed 20261111; 158 s, M4 on AC power). Commit `a68d741` with uncommitted changes; rerun
-after committing.
+seed 20261111; 158 s, M4 on AC power). Recorded at commit `956843c`, clean, and
+reproduced exactly by a rerun.
 
 **Setup.** Each user has 29 places already ranked and adds 20 more in a session, at 10%
 wrong answers (constant noise). Metric: the user's mean placement error, which only a

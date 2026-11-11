@@ -18,9 +18,9 @@ Angular. Every experiment uses simulated users with known true preferences, so
 placement error can be measured exactly. The A/B test runs both offline and end
 to end through the app on one machine. No data is collected from people.
 
-**Status:** the simulation results and the app (API on Postgres, Angular page) run locally; it
-isn't deployed yet. Everything below comes from simulated users, and each row can be regenerated
-with its script.
+**Status:** results as of `v0.1.0`. The simulation results and the app (API on Postgres, Angular
+page) run locally; it isn't deployed yet. Everything below comes from simulated users, and each row
+can be regenerated with its script.
 
 ![Adding a tenth place to a list by answering better-or-worse questions](docs/demo.gif)
 
@@ -108,5 +108,6 @@ or `insertion_closed`.
 
 ## Design notes
 
+- [`docs/DESIGN.md`](docs/DESIGN.md): how the simulation, app and SQL analysis fit together.
 - [`docs/WRITEUP.md`](docs/WRITEUP.md): what the results mean for a product, without the statistics.
 - [`docs/DECISIONS.md`](docs/DECISIONS.md): every design decision, with the reason and what was measured.
